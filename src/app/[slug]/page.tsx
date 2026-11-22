@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ALTERSVORSORGE_SLUG, RIESTER_SLUG, isPensionSlug, pensionProduct } from "@/lib/pension-switch";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Header } from "@/components/Header";
@@ -26,7 +25,6 @@ import { PropertyInsuranceArticle } from "@/components/PropertyInsuranceArticle"
 import { RealEstateLoanArticle } from "@/components/RealEstateLoanArticle";
 import { RenewableEnergyArticle } from "@/components/RenewableEnergyArticle";
 import { AltersvorsorgedepotArticle } from "@/components/AltersvorsorgedepotArticle";
-import { RiesterPensionArticle } from "@/components/RiesterPensionArticle";
 import { SolarInsuranceArticle } from "@/components/SolarInsuranceArticle";
 import { WealthProtectionArticle } from "@/components/WealthProtectionArticle";
 import { WorkAbilityInsuranceArticle } from "@/components/WorkAbilityInsuranceArticle";
@@ -42,9 +40,12 @@ import { withBasePath } from "@/lib/asset";
 // Bản tĩnh GitHub Pages: tạo toàn bộ lúc build.
 export const revalidate = 60;
 
+// Riester đã được thay bằng Quỹ đầu tư hưu trí; giữ URL cũ để chuyển hướng
+const OLD_RIESTER_SLUG = "bao-hiem-huu-tri-riester";
+
 export async function generateStaticParams() {
-  // Luôn tạo cả 2 URL hưu trí: URL không còn áp dụng sẽ chuyển hướng sang URL kia
-  const slugs = new Set<string>([...articles.map((article) => article.slug), RIESTER_SLUG, ALTERSVORSORGE_SLUG]);
+  // Gồm cả URL cũ của Riester để link cũ (vd. trong WebCake) vẫn chuyển sang trang mới
+  const slugs = new Set<string>([...articles.map((article) => article.slug), OLD_RIESTER_SLUG]);
   // Bài viết soạn trên web (Firestore); bỏ qua nếu không có quyền truy cập lúc build
   const dbArticles = await listDbArticles().catch(() => []);
   for (const article of dbArticles) if (article.slug) slugs.add(article.slug);
@@ -200,10 +201,7 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  // Riester ↔ Quỹ đầu tư hưu trí: URL không còn áp dụng thì chuyển sang URL đang áp dụng
-  if (isPensionSlug(slug) && slug !== pensionProduct.slug) {
-    redirect(pensionProduct.href);
-  }
+  if (slug === OLD_RIESTER_SLUG) redirect("/quy-dau-tu-huu-tri");
   const article = articles.find((a) => a.slug === slug);
   if (!article) {
     const dbArticle = await getDbArticleBySlug(slug).catch(() => null);
@@ -390,12 +388,12 @@ export default async function ArticlePage({
     );
   }
 
-  if (slug === RIESTER_SLUG || slug === ALTERSVORSORGE_SLUG) {
+  if (slug === "quy-dau-tu-huu-tri") {
     return (
       <>
         <Header />
         <main className="flex-1 dvag-article-compact" style={{ paddingTop: "var(--header-height)" }}>
-          {slug === ALTERSVORSORGE_SLUG ? <AltersvorsorgedepotArticle /> : <RiesterPensionArticle />}
+          <AltersvorsorgedepotArticle />
           <RelatedArticles currentSlug={slug} />
         </main>
         <Footer />
@@ -452,7 +450,7 @@ export default async function ArticlePage({
                   </Link>
                   <ul className="mt-2 flex flex-col gap-1.5">
                     {[
-                      { label: pensionProduct.buttonLabel, href: pensionProduct.href },
+                      { label: "Quỹ đầu tư hưu trí", href: "/quy-dau-tu-huu-tri" },
                       { label: "Bảo hiểm hưu trí cơ bản", href: "/bao-hiem-huu-tri-co-ban" },
                       { label: "Bảo hiểm hưu trí doanh nghiệp", href: "/bao-hiem-huu-tri-doanh-nghiep" },
                     ].map((sub) => (

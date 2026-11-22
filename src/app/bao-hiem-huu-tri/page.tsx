@@ -4,29 +4,20 @@ import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AltersvorsorgedepotArticle } from "@/components/AltersvorsorgedepotArticle";
-import { RiesterPensionArticle } from "@/components/RiesterPensionArticle";
-import { isAltersvorsorgeLive } from "@/lib/pension-switch";
 import { BasicPensionArticle } from "@/components/BasicPensionArticle";
 import { CorporatePensionArticle } from "@/components/CorporatePensionArticle";
 
-// Tính lại mỗi giờ để tự chuyển Riester → Quỹ đầu tư hưu trí vào 1/1/2027
-export const revalidate = 3600;
-
-export function generateMetadata(): Metadata {
-  return {
-    title: "Bảo hiểm hưu trí - taichinh.de",
-    description: isAltersvorsorgeLive()
-      ? "Quỹ đầu tư hưu trí Altersvorsorgedepot, Basisrente và hưu trí doanh nghiệp."
-      : "Các giải pháp bảo hiểm hưu trí Riester, Basisrente và hưu trí doanh nghiệp.",
-  };
-}
+export const metadata: Metadata = {
+  title: "Bảo hiểm hưu trí - taichinh.de",
+  description: "Quỹ đầu tư hưu trí Altersvorsorgedepot, Basisrente và hưu trí doanh nghiệp.",
+};
 
 export default function PensionInsurancePage() {
   return (
     <>
       <Header />
       <main className="flex-1 dvag-article-compact" style={{ paddingTop: "var(--header-height)" }}>
-        {isAltersvorsorgeLive() ? <AltersvorsorgedepotArticle /> : <RiesterPensionArticle />}
+        <AltersvorsorgedepotArticle />
         <BasicPensionArticle />
         <CorporatePensionArticle />
         <section className="bg-white py-12 lg:py-16">

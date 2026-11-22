@@ -11,8 +11,7 @@ const beVietnamPro = Be_Vietnam_Pro({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-// Trang tĩnh được tạo lại mỗi giờ để nội dung theo ngày (vd. Riester → Quỹ đầu tư hưu trí
-// từ 1/1/2027, xem lib/pension-switch.ts) tự cập nhật mà không cần deploy lại.
+// Trang tĩnh trên Vercel được tạo lại tối đa mỗi giờ.
 export const revalidate = 3600;
 
 export const metadata: Metadata = {

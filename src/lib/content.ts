@@ -9,7 +9,6 @@ import type {
   TeaserCard,
 } from "@/types/content";
 import { articleAsFeedItem, type FeedItem } from "@/lib/feed";
-import { pensionProduct, withLivePension } from "@/lib/pension-switch";
 
 export const siteName = "taichinh.de";
 
@@ -36,14 +35,7 @@ export const headerNav: NavItem[] = [
     label: "Bảo hiểm",
     href: "/series/insurance",
     items: [
-      {
-        get label() {
-          return pensionProduct.menuLabel;
-        },
-        get href() {
-          return pensionProduct.href;
-        },
-      },
+      { label: "Quỹ đầu tư hưu trí", href: "/quy-dau-tu-huu-tri" },
       { label: "Bảo hiểm hưu trí Basisrente", href: "/bao-hiem-huu-tri-co-ban" },
       { label: "Bảo hiểm doanh nghiệp", href: "/bao-hiem-doanh-nghiep" },
       { label: "Bảo hiểm mất sức lao động", href: "/bao-hiem-mat-suc-lao-dong" },
@@ -193,12 +185,7 @@ export const teaserCards: TeaserCard[] = [
   {
     label: "",
     headline: "Tài chính chủ động - An nhiên tuổi già",
-    cta: {
-      label: "Xem tiếp",
-      get href() {
-        return pensionProduct.href;
-      },
-    },
+    cta: { label: "Xem tiếp", href: "/quy-dau-tu-huu-tri" },
     image: {
       src: "/images/pdf-field-house.jpeg",
       alt: "Tài chính chủ động an nhiên tuổi già",
@@ -308,13 +295,12 @@ export const articles: Article[] = [
     date: "Mar 30, 2025",
     image: "/images/article-06-huu-tri-doanh-nghiep.jpeg",
   },
-  // Riester → Quỹ đầu tư hưu trí: tự đổi từ 1/1/2027 (xem lib/pension-switch.ts)
-  withLivePension({
-    slug: pensionProduct.slug,
-    title: pensionProduct.title,
+  {
+    slug: "quy-dau-tu-huu-tri",
+    title: "Quỹ đầu tư hưu trí - Altersvorsorgedepot",
     date: "Mar 30, 2025",
     image: "/images/pdf-field-house.jpeg",
-  }),
+  },
   {
     slug: "bao-hiem-doanh-nghiep",
     title: "Bảo hiểm doanh nghiệp",
@@ -452,7 +438,6 @@ const SLUG_TO_CATEGORY: Record<string, string> = {
   "tiet-kiem-xay-dung": "Quỹ xây dựng",
   fingerhaus: "Quỹ xây dựng",
   "bao-hiem-huu-tri-doanh-nghiep": "Bảo hiểm",
-  "bao-hiem-huu-tri-riester": "Bảo hiểm",
   "quy-dau-tu-huu-tri": "Bảo hiểm",
   "bao-hiem-doanh-nghiep": "Bảo hiểm",
   "bao-hiem-huu-tri-co-ban": "Bảo hiểm",
@@ -483,18 +468,16 @@ export const articleSliderItems: FeedItem[] = [
     category: "Tin mới",
   },
   ...articles.slice(1, 5).map((a) =>
-    withLivePension(
-      articleAsFeedItem(
-        { ...a, excerpt: a.excerpt ?? FALLBACK_LEAD },
-        SLUG_TO_CATEGORY[a.slug],
-      ),
+    articleAsFeedItem(
+      { ...a, excerpt: a.excerpt ?? FALLBACK_LEAD },
+      SLUG_TO_CATEGORY[a.slug],
     ),
   ),
 ];
 
 // All articles as FeedItem (used by archive merge with drafts)
 export const allArticleFeedItems: FeedItem[] = articles.map((a) =>
-  withLivePension(articleAsFeedItem(a, SLUG_TO_CATEGORY[a.slug])),
+  articleAsFeedItem(a, SLUG_TO_CATEGORY[a.slug]),
 );
 
 export const author = {

@@ -9,3 +9,6 @@ dist/
 taichinh/
 taichinh.worktrees/
 *.worktrees/
+
+# file tạm khi làm việc
+/tmp/

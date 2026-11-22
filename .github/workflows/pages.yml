@@ -6,8 +6,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [main]
-  # Build lại mỗi giờ: cập nhật bài viết soạn trên web và nội dung theo ngày
-  # (vd. Riester → Quỹ đầu tư hưu trí từ 1/1/2027).
+  # Build lại mỗi giờ để cập nhật bài viết soạn trên web (Firestore).
   schedule:
     - cron: "7 * * * *"
   workflow_dispatch:

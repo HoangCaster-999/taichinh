@@ -39,8 +39,6 @@ export const seriesList: Series[] = [
     articleSlugs: [
       "cai-cach-che-do-huu-tri-tu-nhan-riester",
       "bao-hiem-huu-tri-doanh-nghiep",
-      // chỉ slug đang áp dụng có trong `articles`, slug còn lại tự bị bỏ qua
-      "bao-hiem-huu-tri-riester",
       "quy-dau-tu-huu-tri",
       "bao-hiem-doanh-nghiep",
       "bao-hiem-huu-tri-co-ban",

@@ -287,39 +287,6 @@ export const articleBodies: Record<string, Block[]> = {
     },
   ],
 
-  "bao-hiem-huu-tri-riester": [
-    { type: "h2", text: "Bổ sung tài chính cho nghỉ hưu — được hỗ trợ của nhà nước" },
-    { type: "p", text: "Chỉ có với **Riester-Rente**, bạn mới nhận được những khoản trợ cấp hàng năm từ nhà nước cao như vậy. Hãy tận dụng những cơ hội này — đầu tư vào tương lai của bạn!" },
-    { type: "h2", text: "Lợi ích của bạn từ Riester-Rente" },
-    { type: "img", src: "https://cdn.hashnode.com/res/hashnode/image/upload/v1745522131658/998437a5-00e7-4d6f-ab1f-efdcc1f4a39c.png", alt: "Lợi ích Riester-Rente" },
-    { type: "h2", text: "Với những đồng vốn nhỏ, đạt được hiệu quả lớn lao" },
-    { type: "h3", text: "Ai đủ điều kiện nhận hỗ trợ từ nhà nước?" },
-    { type: "p", text: "Tất cả những người lao động đóng bảo hiểm hưu trí nhà nước đều có thể nhận được hỗ trợ này." },
-    { type: "p", text: "Ngoài ra, công chức, quân nhân, thẩm phán và nông dân cũng có thể tận dụng lợi ích từ hỗ trợ Riester." },
-    { type: "h3", text: "Mức hỗ trợ hàng năm từ nhà nước" },
-    { type: "p", text: "Bạn sẽ nhận được khoản hỗ trợ của nhà nước hàng năm nếu bạn tiết kiệm 4% thu nhập brutto của năm trước, trừ các khoản hỗ trợ, với mức tối đa là **2.100 EUR mỗi năm**." },
-    {
-      type: "ul",
-      items: [
-        "**175 EUR/năm** trợ cấp cho mọi người tham gia Riester",
-        "**185 EUR/năm** trợ cấp cho mỗi đứa trẻ sinh trước năm 2008",
-        "**300 EUR/năm** trợ cấp cho mỗi đứa trẻ sinh từ năm 2008 trở đi",
-        "**200 EUR** trợ cấp cho người mới bắt đầu nghề dưới 25 tuổi",
-      ],
-    },
-    { type: "h2", text: "Riester-Rente đặc biệt có lợi cho" },
-    {
-      type: "ul",
-      items: [
-        "Học viên và người mới bắt đầu nghề nghiệp",
-        "Người làm việc bán thời gian và người độc thân",
-        "Hộ gia đình có trẻ em",
-        "Người có thu nhập thấp và cao",
-        "Người hưởng trợ cấp",
-      ],
-    },
-  ],
-
   "bao-hiem-doanh-nghiep": [
     { type: "h2", text: "Doanh nghiệp của bạn được bảo vệ toàn diện trong gói bảo hiểm tổng hợp" },
     { type: "p", text: "**Điểm nổi bật của khái niệm FirmenSAFE:**" },
