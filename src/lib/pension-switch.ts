@@ -1,12 +1,13 @@
 /**
  * Riester-Rente bị thay thế bằng Quỹ đầu tư hưu trí (Altersvorsorgedepot) từ 1/1/2027.
- * Trước mốc này website hiển thị Riester; từ mốc này tự chuyển sang sản phẩm mới.
+ * Trước mốc này website hiển thị Riester; từ mốc này hiển thị sản phẩm mới.
  *
- * Mốc mặc định: 01/01/2027 00:00 giờ Đức (CET = UTC+1).
+ * Mốc hiện tại: 22/11/2026 — hiển thị Quỹ đầu tư hưu trí ngay (theo yêu cầu),
+ * không chờ đến 1/1/2027. Muốn quay lại Riester thì đặt mốc về tương lai.
  * Có thể ghi đè để xem trước bằng biến môi trường NEXT_PUBLIC_PENSION_SWITCH_AT
  * (ISO date, ví dụ "2026-01-01T00:00:00Z").
  */
-const DEFAULT_SWITCH_AT = "2026-12-31T23:00:00Z";
+const DEFAULT_SWITCH_AT = "2026-11-22T00:00:00Z";
 
 const SWITCH_AT = new Date(process.env.NEXT_PUBLIC_PENSION_SWITCH_AT || DEFAULT_SWITCH_AT).getTime();
 
