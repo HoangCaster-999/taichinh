@@ -31,7 +31,7 @@ export default function RootLayout({
           <EmbeddedScrollbarMode />
           {children}
         </div>
-        <Analytics />
+        {process.env.NEXT_PUBLIC_STATIC_EXPORT ? null : <Analytics />}
       </body>
     </html>
   );

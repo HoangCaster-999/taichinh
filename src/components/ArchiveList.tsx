@@ -6,6 +6,7 @@ import Link from "next/link";
 import { allArticleFeedItems } from "@/lib/content";
 import { useDbArticleFeedItems } from "@/lib/use-db-article-feed-items";
 import type { FeedItem } from "@/lib/feed";
+import { withBasePath } from "@/lib/asset";
 
 const categoryOrder = [
   "Tin mới",
@@ -91,7 +92,7 @@ export function ArchiveList() {
                       {item.unoptimizedImage ? (
                         <div
                           className="absolute inset-0 bg-cover bg-center"
-                          style={{ backgroundImage: `url("${item.image.replace(/"/g, "%22")}")` }}
+                          style={{ backgroundImage: `url("${withBasePath(item.image).replace(/"/g, "%22")}")` }}
                           role="img"
                           aria-label={item.title}
                         />

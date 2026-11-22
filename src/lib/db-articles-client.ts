@@ -8,7 +8,8 @@ export function notifyArticlesChanged() {
 }
 
 export async function fetchDbArticles(): Promise<DbArticle[]> {
-  const res = await fetch("/api/articles", { cache: "no-store" });
+  // Bản tĩnh (GitHub Pages) đọc từ server Vercel; trên Vercel API_ORIGIN rỗng
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_ORIGIN ?? ""}/api/articles`, { cache: "no-store" });
   if (!res.ok) throw new Error("Không tải được danh sách bài viết.");
   const data = (await res.json()) as { articles: DbArticle[] };
   return data.articles;

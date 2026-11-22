@@ -11,6 +11,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@/components/icons";
+import { withBasePath } from "@/lib/asset";
 
 export function ArticleSlider() {
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -78,7 +79,7 @@ export function ArticleSlider() {
                 {item.unoptimizedImage ? (
                   <div
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.04]"
-                    style={{ backgroundImage: `url("${item.image.replace(/"/g, "%22")}")` }}
+                    style={{ backgroundImage: `url("${withBasePath(item.image).replace(/"/g, "%22")}")` }}
                     role="img"
                     aria-label={item.title}
                   />

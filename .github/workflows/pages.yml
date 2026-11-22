@@ -1,0 +1,64 @@
+# Bản tĩnh cho khách xem (nhúng WebCake) trên GitHub Pages:
+#   https://hoangcaster-999.github.io/taichinh/
+# Phần quản trị (đăng nhập, soạn bài, thống kê, API) vẫn chạy trên Vercel.
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Build lại mỗi giờ: cập nhật bài viết soạn trên web và nội dung theo ngày
+  # (vd. Riester → Quỹ đầu tư hưu trí từ 1/1/2027).
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Các phần cần server không thể xuất tĩnh — chúng chạy trên Vercel
+      - name: Remove server-only routes
+        run: rm -rf src/app/api src/app/login src/app/drafts src/app/thong-ke
+
+      - name: Build static site
+        run: npx next build
+        env:
+          STATIC_EXPORT: "1"
+          PAGES_BASE_PATH: /taichinh
+          API_ORIGIN: https://taichinh-rust.vercel.app
+          # Để lấy bài viết soạn trên web lúc build (không bắt buộc)
+          FIREBASE_SERVICE_ACCOUNT_BASE64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE64 }}
+
+      - run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

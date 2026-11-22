@@ -34,13 +34,21 @@ import { articles } from "@/lib/content";
 import { articleBodies } from "@/lib/articles-content";
 import { seriesList } from "@/lib/series";
 import { ChevronLeftIcon } from "@/components/icons";
-import { getDbArticleBySlug } from "@/lib/server/articles";
+import { getDbArticleBySlug, listDbArticles } from "@/lib/server/articles";
 import { parseMarkdown } from "@/lib/markdown";
+import { withBasePath } from "@/lib/asset";
 
-export const dynamic = "force-dynamic";
+// Trên Vercel: tạo lại tối đa mỗi phút (bài soạn trên web cập nhật gần như ngay).
+// Bản tĩnh GitHub Pages: tạo toàn bộ lúc build.
+export const revalidate = 60;
 
-export function generateStaticParams() {
-  return articles.map((article) => ({ slug: article.slug }));
+export async function generateStaticParams() {
+  // Luôn tạo cả 2 URL hưu trí: URL không còn áp dụng sẽ chuyển hướng sang URL kia
+  const slugs = new Set<string>([...articles.map((article) => article.slug), RIESTER_SLUG, ALTERSVORSORGE_SLUG]);
+  // Bài viết soạn trên web (Firestore); bỏ qua nếu không có quyền truy cập lúc build
+  const dbArticles = await listDbArticles().catch(() => []);
+  for (const article of dbArticles) if (article.slug) slugs.add(article.slug);
+  return [...slugs].map((slug) => ({ slug }));
 }
 
 const customRelatedSlugs: Record<string, string[]> = {
@@ -236,7 +244,7 @@ export default async function ArticlePage({
               {coverImage ? (
                 <div
                   className="mt-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-cover bg-center bg-muted"
-                  style={{ backgroundImage: `url("${coverImage.replace(/"/g, "%22")}")` }}
+                  style={{ backgroundImage: `url("${withBasePath(coverImage).replace(/"/g, "%22")}")` }}
                   role="img"
                   aria-label={dbArticle.title}
                 />

@@ -8,6 +8,7 @@ import { allArticleFeedItems } from "@/lib/content";
 import { staticPages } from "@/lib/static-pages";
 import { useDbArticleFeedItems } from "@/lib/use-db-article-feed-items";
 import type { FeedItem } from "@/lib/feed";
+import { withBasePath } from "@/lib/asset";
 
 type SearchItem = FeedItem & {
   searchText: string;
@@ -95,7 +96,7 @@ export function SearchResults() {
                 {item.unoptimizedImage ? (
                   <div
                     className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url("${item.image.replace(/"/g, "%22")}")` }}
+                    style={{ backgroundImage: `url("${withBasePath(item.image).replace(/"/g, "%22")}")` }}
                     role="img"
                     aria-label={item.title}
                   />

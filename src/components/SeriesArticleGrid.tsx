@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CATEGORY_TO_SERIES_SLUG, type FeedItem } from "@/lib/feed";
 import { useDbArticleFeedItems } from "@/lib/use-db-article-feed-items";
+import { withBasePath } from "@/lib/asset";
 
 export function SeriesArticleGrid({
   staticItems,
@@ -44,7 +45,7 @@ export function SeriesArticleGrid({
                     {item.unoptimizedImage ? (
                       <div
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.03]"
-                        style={{ backgroundImage: `url("${item.image.replace(/"/g, "%22")}")` }}
+                        style={{ backgroundImage: `url("${withBasePath(item.image).replace(/"/g, "%22")}")` }}
                         role="img"
                         aria-label={item.title}
                       />

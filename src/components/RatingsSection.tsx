@@ -93,7 +93,7 @@ export function RatingsSectionClient({ ratings }: { ratings: RatingMock[] }) {
                   <CloseIcon className="h-5 w-5" />
                 </label>
               </div>
-              <form action="/api/reviews" method="post" className="mt-5 space-y-4">
+              <form action={`${process.env.NEXT_PUBLIC_API_ORIGIN ?? ""}/api/reviews`} method="post" className="mt-5 space-y-4">
                 <div>
                   <label htmlFor="rating-name" className="block text-xs font-bold uppercase tracking-wider text-text-muted">Họ tên</label>
                   <input id="rating-name" name="name" className="mt-1 h-10 w-full rounded border border-black/20 px-3 text-sm outline-none focus:border-brand-gold" placeholder="Tên của bạn" />
