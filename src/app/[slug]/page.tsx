@@ -1,6 +1,7 @@
 import Image from "next/image";
+import { ALTERSVORSORGE_SLUG, RIESTER_SLUG, isPensionSlug, pensionProduct } from "@/lib/pension-switch";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ArticleBody } from "@/components/ArticleBody";
@@ -24,6 +25,7 @@ import { PersonalLiabilityArticle } from "@/components/PersonalLiabilityArticle"
 import { PropertyInsuranceArticle } from "@/components/PropertyInsuranceArticle";
 import { RealEstateLoanArticle } from "@/components/RealEstateLoanArticle";
 import { RenewableEnergyArticle } from "@/components/RenewableEnergyArticle";
+import { AltersvorsorgedepotArticle } from "@/components/AltersvorsorgedepotArticle";
 import { RiesterPensionArticle } from "@/components/RiesterPensionArticle";
 import { SolarInsuranceArticle } from "@/components/SolarInsuranceArticle";
 import { WealthProtectionArticle } from "@/components/WealthProtectionArticle";
@@ -190,6 +192,10 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  // Riester ↔ Quỹ đầu tư hưu trí: URL không còn áp dụng thì chuyển sang URL đang áp dụng
+  if (isPensionSlug(slug) && slug !== pensionProduct.slug) {
+    redirect(pensionProduct.href);
+  }
   const article = articles.find((a) => a.slug === slug);
   if (!article) {
     const dbArticle = await getDbArticleBySlug(slug).catch(() => null);
@@ -376,12 +382,12 @@ export default async function ArticlePage({
     );
   }
 
-  if (slug === "bao-hiem-huu-tri-riester") {
+  if (slug === RIESTER_SLUG || slug === ALTERSVORSORGE_SLUG) {
     return (
       <>
         <Header />
         <main className="flex-1 dvag-article-compact" style={{ paddingTop: "var(--header-height)" }}>
-          <RiesterPensionArticle />
+          {slug === ALTERSVORSORGE_SLUG ? <AltersvorsorgedepotArticle /> : <RiesterPensionArticle />}
           <RelatedArticles currentSlug={slug} />
         </main>
         <Footer />
@@ -438,7 +444,7 @@ export default async function ArticlePage({
                   </Link>
                   <ul className="mt-2 flex flex-col gap-1.5">
                     {[
-                      { label: "Bảo hiểm Riesterrente", href: "/bao-hiem-huu-tri-riester" },
+                      { label: pensionProduct.buttonLabel, href: pensionProduct.href },
                       { label: "Bảo hiểm hưu trí cơ bản", href: "/bao-hiem-huu-tri-co-ban" },
                       { label: "Bảo hiểm hưu trí doanh nghiệp", href: "/bao-hiem-huu-tri-doanh-nghiep" },
                     ].map((sub) => (

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { pensionProduct } from "@/lib/pension-switch";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -54,7 +55,7 @@ const insuranceCards: ProductCard[] = [
     image: "/images/pdf-field-house.jpeg",
     alt: "Bảo hiểm hưu trí",
     subLinks: [
-      { label: "Bảo hiểm Riesterrente", href: "/bao-hiem-huu-tri-riester" },
+      { label: pensionProduct.buttonLabel, href: pensionProduct.href },
       { label: "Bảo hiểm hưu trí cơ bản", href: "/bao-hiem-huu-tri-co-ban" },
       { label: "Bảo hiểm hưu trí doanh nghiệp", href: "/bao-hiem-huu-tri-doanh-nghiep" },
     ],

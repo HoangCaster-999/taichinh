@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pensionProduct } from "@/lib/pension-switch";
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
@@ -37,7 +38,7 @@ export default function HealthInsuranceGroupPage() {
                 </Link>
                 <ul className="mt-2 flex flex-col gap-1.5">
                   {[
-                    { label: "Bảo hiểm Riesterrente", href: "/bao-hiem-huu-tri-riester" },
+                    { label: pensionProduct.buttonLabel, href: pensionProduct.href },
                     { label: "Bảo hiểm hưu trí cơ bản", href: "/bao-hiem-huu-tri-co-ban" },
                     { label: "Bảo hiểm hưu trí doanh nghiệp", href: "/bao-hiem-huu-tri-doanh-nghiep" },
                   ].map((sub) => (
